@@ -1,7 +1,7 @@
 package whatapi
 
 type Torrent struct {
-	Group   GroupType `json:"group"`
+	Group   GroupType   `json:"group"`
 	Torrent TorrentType `json:"torrent"`
 }
 
@@ -30,8 +30,14 @@ type GroupType struct {
 			Name string `json:"name"`
 		} `json:"with"`
 		Conductor []string `json:"conductor"`
-		RemixedBy []string `json:"remixedBy"`
-		Producer  []string `json:"producer"`
+		RemixedBy []struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"remixedBy"`
+		Producer []struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"producer"`
 	} `json"musicInfo"`
 	Tags []string `json"tags"`
 }

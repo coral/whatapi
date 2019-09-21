@@ -72,6 +72,7 @@ func (w *WhatAPI) CreateDownloadURL(id int) (string, error) {
 
 //Login logs in to the API using the provided credentials.
 func (w *WhatAPI) Login(username, password string) error {
+
 	params := url.Values{}
 	params.Set("username", username)
 	params.Set("password", password)
@@ -309,6 +310,21 @@ func (w *WhatAPI) GetRequest(id int, params url.Values) (Request, error) {
 func (w *WhatAPI) GetTorrent(id int, params url.Values) (Torrent, error) {
 	torrent := TorrentResponse{}
 	params.Set("id", strconv.Itoa(id))
+	requestURL, err := buildURL(w.baseURL, "ajax.php", "torrent", params)
+	if err != nil {
+		return torrent.Response, err
+	}
+	err = w.GetJSON(requestURL, &torrent)
+	if err != nil {
+		return torrent.Response, err
+	}
+	return torrent.Response, checkResponseStatus(torrent.Status, torrent.Error)
+}
+
+//GetTorrentFromHash retrieves torrent information using the provided torrent hash and parameters.
+func (w *WhatAPI) GetTorrentFromHash(hash string, params url.Values) (Torrent, error) {
+	torrent := TorrentResponse{}
+	params.Set("hash", hash)
 	requestURL, err := buildURL(w.baseURL, "ajax.php", "torrent", params)
 	if err != nil {
 		return torrent.Response, err
