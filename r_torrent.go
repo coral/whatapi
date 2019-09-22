@@ -19,9 +19,15 @@ type GroupType struct {
 	Time            string `json:"time"`
 	VanityHouse     bool   `json:"vanityHouse"`
 	MusicInfo       struct {
-		Composers []string `json:"composers"`
-		DJ        []string `json:"dj"`
-		Artists   []struct {
+		Composers []struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"composers"`
+		DJ []struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+		} `json:"dj"`
+		Artists []struct {
 			ID   int    `json:"id"`
 			Name string `json:"name"`
 		}
